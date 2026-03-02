@@ -20,10 +20,21 @@ yet another opinionated linux distro; based on Void Linux
 ### 2. run the bootstrap script
 after booting into the live environment, run the following commands:
 ```bash
-xbps-install -Syu xbps
-xbps-install -Sy git
+xbps-install -Syu xbps git
 git clone https://github.com/FawkesOficial/voidptr.git
 cd voidptr
 bash install.sh
 ```
 > note: never run any scripts from the internet without checking the first (including this one). some malicious haxors might be out to get you
+
+## TODO
+
+- WM - wayland + sway + waybar setup
+- terminal - foot (or alacritty)
+- shell - figure out what shell to use
+- dotfiles - remake/redo github repo and start from "scratch"
+- librewolf - fix/implement setup/config function
+- session and seat management - `seatd` or `elogind`
+- cpu and gpu drivers - setup install packages
+- extra package install - define and install "extra" packages
+- todo - go through `[TODO]` comments
