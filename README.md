@@ -35,6 +35,6 @@ bash install.sh
 - dotfiles - remake/redo github repo and start from "scratch"
 - librewolf - fix/implement setup/config function
 - session and seat management - `seatd` or `elogind`
-- cpu and gpu drivers - setup install packages
 - extra package install - define and install "extra" packages
 - todo - go through `[TODO]` comments
+- hibernation - actually setup hibernation with the required kernel params (idk if adding `resume` is even required)
