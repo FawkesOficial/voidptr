@@ -25,7 +25,7 @@ git clone https://github.com/FawkesOficial/voidptr.git
 cd voidptr
 bash install.sh
 ```
-> note: never run any scripts from the internet without checking the first (including this one). some malicious haxors might be out to get you
+> note: never run any scripts from the internet without checking them first (including this one). some malicious haxors might be out to get you
 
 ## TODO
 
