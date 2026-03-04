@@ -81,6 +81,14 @@ echo "cryptroot $LUKS_PART /boot/volume.key luks" >> /etc/crypttab
 echo 'install_items+=" /boot/volume.key /etc/crypttab "' >> /etc/dracut.conf.d/10-crypt.conf
 
 
+# enable hibernation
+if [ "$_HIBERNATION" = "true" ]; then
+    echo 'add_dracutmodules+=" resume "' > /etc/dracut.conf.d/resume.conf
+
+    set_kernel_param "resume=/dev/mapper/vg0-swap"
+fi
+
+
 # enable the NetworkManager service
 infobox "Configuring Networking..."
 

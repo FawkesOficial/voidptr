@@ -37,4 +37,4 @@ bash install.sh
 - session and seat management - `seatd` or `elogind`
 - extra package install - define and install "extra" packages
 - todo - go through `[TODO]` comments
-- hibernation - actually setup hibernation with the required kernel params (idk if adding `resume` is even required)
+- hibernation - test hibernation after moving to wayland/sway setup since the current xorg+dwm(+nvidia drivers) is unreliable

@@ -20,6 +20,10 @@ install_pkg starship || error "failed to install dependencies: starship" # [TODO
 install_pkg xorg xinit libX11-devel libXft-devel libXinerama-devel freetype-devel harfbuzz-devel  || error "failed to install dependencies: suckless" # [TODO]: this isnt really a "dependency"
 
 
+install_desktop() {
+    
+}
+
 
 install_dotfiles() {
     # https://www.atlassian.com/git/tutorials/dotfiles
@@ -111,6 +115,7 @@ config_firefox() {
 
 # [TODO]: take things out of functions?
 main() {
+    install_desktop
     install_dotfiles
     install_suckless_software # [TODO]: wayland setup in the future
     clean_bash_files

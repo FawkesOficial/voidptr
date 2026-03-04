@@ -38,7 +38,7 @@ custom_pkgs() {
                 ;;
                 nvidia)
                     install_cmd void-repo-nonfree
-                    install_cmd nvidia # nvidia-utils?
+                    install_cmd nvidia dkms # [TODO]: nvidia-utils?
 
                     # enable mode setting for wayland compositors
                     # this default should change to drm enabled with more recent nvidia drivers, expect this to be removed in the future.
@@ -48,7 +48,7 @@ custom_pkgs() {
                     install_cmd mesa-dri mesa-nouveau-dri
                 ;;
                 intel)
-                    install_cmd mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel
+                    install_cmd mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel linux-firmware-intel
                 ;;
                 *)
                     error "unsuported \"$_GPU_DRIVERS\" GPU drivers"
