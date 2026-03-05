@@ -89,3 +89,9 @@ save_options() {
         done
     } > "$SCRIPT_DIR/user-options.env"
 }
+
+enable_service() {
+    for svc in "$@"; do
+        sudo ln -sf /etc/sv/"$svc" /etc/runit/runsvdir/default/
+    done
+}

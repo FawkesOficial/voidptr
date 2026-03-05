@@ -38,6 +38,8 @@ infobox "Configuring locales..."
 
 ln -sf "/usr/share/zoneinfo/$_TIMEZONE" /etc/localtime
 hwclock --systohc
+install_pkg chrony
+enable_service chronyd
 
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 echo "en_US.UTF-8 UTF-8" >> /etc/default/libc-locales
@@ -92,8 +94,8 @@ fi
 # enable the NetworkManager service
 infobox "Configuring Networking..."
 
-ln -s /etc/sv/dbus /etc/runit/runsvdir/default/
-ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
+enable_service dbus
+enable_service NetworkManager
 sleep 5
 # [TODO]: check if this is really fixed now
 set_dns_after_boot() {

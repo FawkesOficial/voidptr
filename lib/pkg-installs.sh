@@ -65,6 +65,50 @@ custom_pkgs() {
             error "NOT IMPLEMENTED YET: bluetooth_drivers"
             install_cmd bluez bluez-runit bluez-utils
         ;;
+        # desktop installs from: https://github.com/kkrruumm/void-install-script/blob/main/setup/desktop
+        # note: didn't include any display/login managers since they are not required for this setup
+        gnome)
+            install_cmd gnome-core gnome-console gnome-tweaks gnome-browser-connector gnome-text-editor xdg-user-dirs xorg-minimal xorg-video-drivers
+            enable_service elogind
+        ;;
+        kde)
+            install_cmd kde-plasma kde-baseapps xdg-user-dirs xorg-minimal xorg-video-drivers
+            enable_service elogind
+        ;;
+        xfce)
+            install_cmd xfce4 xfce4-pulseaudio-plugin lightdm lightdm-gtk3-greeter xorg-minimal xdg-user-dirs xorg-fonts xorg-video-drivers
+            enable_service elogind
+        ;;
+        sway)
+            install_cmd sway elogind polkit polkit-elogind foot xorg-fonts xdg-desktop-portal-wlr xdg-user-dirs
+            enable_service polkitd elogind
+        ;;
+        swayfx)
+            install_cmd swayfx elogind polkit polkit-elogind foot xorg-fonts xdg-desktop-portal-wlr xdg-user-dirs
+            enable_service polkitd elogind
+        ;;
+        river)
+            install_cmd river elogind polkit polkit-elogind foot xorg-fonts xdg-desktop-portal-wlr xdg-user-dirs
+            enable_service polkitd elogind
+        ;;
+        i3)
+            install_cmd i3 xorg-minimal xinit xterm xorg-fonts xorg-video-drivers xdg-user-dirs
+        ;;
+        niri)
+            install_cmd niri elogind polkit polkit-elogind alacritty fuzzel xorg-fonts xdg-desktop-portal-gtk xdg-desktop-portal-gnome xdg-user-dirs
+            enable_service polkitd elogind
+        ;;
+        wayfire)
+            install_cmd wayfire elogind polkit polkit-elogind alacritty xorg-fonts xdg-desktop-portal-wlr xdg-user-dirs
+            enable_service polkitd elogind
+        ;;
+        mate)
+            install_cmd mate mate-terminal lightdm lightdm-gtk3-greeter xorg-minimal xdg-user-dirs xorg-fonts xorg-video-drivers
+        ;;
+        fonts)
+            # [TODO]: setup font installs pulled from `config.cfg`
+            error "NOT IMPLEMENTED YET: fonts"
+        ;;
         # virtual-machines)
         #     install_cmd virt-manager qemu-base libvirt bridge-utils >/dev/null 2>&1
         # ;;
