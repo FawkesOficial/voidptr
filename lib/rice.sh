@@ -17,11 +17,72 @@ install_pkg git base-devel || error "failed to install dependencies: git + base-
 install_pkg firefox || error "failed to install dependencies: firefox" # [TODO]: this isnt really a "dependency"
 install_pkg nautilus || error "failed to install dependencies: nautilus" # [TODO]: this isnt really a "dependency"
 install_pkg starship || error "failed to install dependencies: starship" # [TODO]: this isnt really a "dependency"
-install_pkg xorg xinit libX11-devel libXft-devel libXinerama-devel freetype-devel harfbuzz-devel  || error "failed to install dependencies: suckless" # [TODO]: this isnt really a "dependency"
 
+
+
+# https://github.com/kkrruumm/void-install-script/blob/main/setup/desktop
+setup_audio() {
+    install_pkg pipewire alsa-pipewire wireplumber
+    sudo mkdir -p /etc/alsa/conf.d
+    sudo mkdir -p /etc/pipewire/pipewire.conf.d
+
+    # this is now required to start pipewire and its session manager 'wireplumber' in an appropriate order, this should achieve a desireable result system-wide
+    sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
+    sudo ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
+
+    # enable pipewire and pipewire-pulse autostart
+    # [NOTE]: the DE or WM or something may still have to launch this
+    if [ -e "/usr/share/applications/pipewire.desktop" ] && [ -e "/etc/xdg/autostart/" ]; then
+        sudo ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
+        sudo ln -s /usr/share/applications/pipewire-pulse.desktop /etc/xdg/autostart/pipewire-pulse.desktop
+    fi
+
+    # alsa configuration
+    sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
+    sudo ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
+
+    install_pkg ncpamixer pamixer pavucontrol
+    install_pkg libspa-bluetooth
+}
 
 install_desktop() {
+    infobox "Installing desktop..."
+
+    install_pkg custom_swayfx
+
+    # [TODO]: maybe move these to `config.cfg` packages section?
+    install_pkg network-manager-applet \
+                xorg-server-xwayland \
+                qt5-wayland qt6-wayland \
+                swaylock swayidle swaybg \
+                Waybar \
+                fuzzel \
+                dunst \
+                xdg-desktop-portal-gtk \
+                wl-clipboard \
+                flameshot \
+                kanshi \
+                foot
+
+    infobox "Setting up audio..."
+    setup_audio
+
+    # [TODO]: enable this after setting up font install in `pkg-installs.sh`
+    # infobox "Installing fonts..."
+    # install_pkg custom_fonts
     
+    # [TODO]: this will eventually be set by dotfiles ig?
+    cat >> ~/.zprofile << 'EOF'
+if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+    export XDG_SESSION_TYPE=wayland
+    export QT_QPA_PLATFORM=wayland
+    export ELM_DISPLAY=wl
+    export SDL_VIDEODRIVER=wayland
+    export MOZ_ENABLE_WAYLAND=1
+
+    exec dbus-run-session sway
+fi
+EOF
 }
 
 
@@ -43,6 +104,8 @@ install_dotfiles() {
 }
 
 install_suckless_software() {
+    install_pkg xorg xinit libX11-devel libXft-devel libXinerama-devel freetype-devel harfbuzz-devel  || error "failed to install dependencies: suckless"
+
     name=$(whoami)
 
     sudo mkdir -p "$SRC_PACKAGES_INSTALL_DIR"
@@ -116,7 +179,7 @@ config_firefox() {
 # [TODO]: take things out of functions?
 main() {
     install_desktop
-    install_dotfiles
+    # install_dotfiles
     install_suckless_software # [TODO]: wayland setup in the future
     clean_bash_files
     nautilus_dark_theme

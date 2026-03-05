@@ -38,3 +38,5 @@ bash install.sh
 - extra package install - define and install "extra" packages
 - todo - go through `[TODO]` comments
 - hibernation - test hibernation after moving to wayland/sway setup since the current xorg+dwm(+nvidia drivers) is unreliable
+- fonts - setup font installs and packages in `config.cfg`
+- readme - time the installation and add a section to the readme with an estimate
